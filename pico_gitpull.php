@@ -1,6 +1,11 @@
 <?php
 
 class Pico_GitPull{
+
+  public function precheck(){
+    return "";
+  }
+
   public function run(){
     chdir(ROOT_DIR);
     exec('git pull 2>&1', $output, $ret);
