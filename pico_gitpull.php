@@ -11,8 +11,17 @@ class Pico_GitPull{
 
   public function run(){
     chdir(ROOT_DIR);
+    $out = "";
     exec('git pull 2>&1', $output, $ret);
-    return array("success" => $ret == 0, "message" => implode("\n", $output));
+    if($ret == 0){
+      $out = implode("\n", $output);
+      $output = "";
+      exec('git submodule update 2>&1', $output, $ret);
+      $out .= "----submodule----\n" . implode("\n", $output);
+    }else{
+      $out = implode("\n", $output);
+    }
+    return array("success" => $ret == 0, "message" => $out);
   }
 }
 
